@@ -11,7 +11,9 @@ public class WordGram {
 	private String[] myWords;   
 	private String myToString;  // cached string
 	private int myHash;         // cached hash value
-
+	
+	
+//constructs a WordGram object and adds the elements from words into an arraylist and sets the other variables as default
 	public WordGram(String[] words, int index, int size) { 
 		myWords = new String[size];
 		ArrayList<String> newwords = new ArrayList<String>(); 
@@ -24,7 +26,7 @@ public class WordGram {
 		
 	}
 
-	
+	//finds the word at a certain index in the wordgram
 	public String wordAt(int index) {
 		if (index < 0 || index >= myWords.length) {
 			throw new IndexOutOfBoundsException("bad index in wordAt "+index);
@@ -33,13 +35,15 @@ public class WordGram {
 	}
 
 	
+	//returns length of the wordgram
 	public int length(){
-		int len = myWords.length;
-		return len;
+		int x = myWords.length;
+		return x;
 	}
 
 
 	@Override
+	//it overrides the Object class;s equals to see if the WordGrams have the exact same elements
 	public boolean equals(Object o) {
 		if (! (o instanceof WordGram) || o == null) {
 			return false;
@@ -59,7 +63,7 @@ public class WordGram {
 		}
 		
 
-	
+	//overrides the Object class's hashCode so it gives the hashcode of each word
 	@Override
 	public int hashCode(){
 		for (int i = 0; i < myWords.length; i ++) {
@@ -70,7 +74,7 @@ public class WordGram {
 	}
 	
 
-	
+	//deletes first word, shifts all the following ones forward, then sticks the new word at the end
 	public WordGram shiftAdd(String last) {
 		WordGram wg = new WordGram(myWords,0,myWords.length);
 		for (int i= 0; i < wg.myWords.length; i ++) {
@@ -87,6 +91,7 @@ public class WordGram {
 	}
 
 	@Override
+	//overrides Object's toString and makes WordGram String in the format of "word word word..."
 	public String toString(){
 		myToString = String.join(" ", myWords);
 		return myToString;
