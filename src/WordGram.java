@@ -1,7 +1,8 @@
+import java.util.ArrayList;
 /**
  * WordGram objects represent a k-gram of strings/words.
  * 
- * @author YOUR-NAME
+ * @author JENNY HUANG
  *
  */
 
@@ -11,22 +12,19 @@ public class WordGram {
 	private String myToString;  // cached string
 	private int myHash;         // cached hash value
 
-	/**
-	 * Create WordGram (add comments)
-	 * @param source
-	 * @param start
-	 * @param size
-	 */
-	public WordGram(String[] source, int start, int size) {
+	public WordGram(String[] words, int index, int size) { 
 		myWords = new String[size];
-		// TODO: initialize myWords and ...
+		ArrayList<String> newwords = new ArrayList<String>(); 
+		for (int i = index; i < size + index ; i ++) {
+			newwords.add(words[i]);
+		}
+		myWords = newwords.toArray(myWords); 
+		myToString = null;
+		myHash = 0;
+		
 	}
 
-	/**
-	 * Return string at specific index in this WordGram
-	 * @param index in range [0..length() ) for string 
-	 * @return string at index
-	 */
+	
 	public String wordAt(int index) {
 		if (index < 0 || index >= myWords.length) {
 			throw new IndexOutOfBoundsException("bad index in wordAt "+index);
@@ -34,47 +32,63 @@ public class WordGram {
 		return myWords[index];
 	}
 
-	/**
-	 * Complete this comment
-	 * @return
-	 */
+	
 	public int length(){
-		// TODO: change this
-		return 0;
+		int len = myWords.length;
+		return len;
 	}
 
 
 	@Override
 	public boolean equals(Object o) {
-		if (! (o instanceof WordGram) || o == null){
+		if (! (o instanceof WordGram) || o == null) {
 			return false;
 		}
+	
+		WordGram wg = (WordGram) o;
+		if ((wg.length() != this.length())) {
+			return false;
+		}
+		for (int i = 0; i < myWords.length; i ++ ) {
+			if (! (this.myWords[i].equals(wg.wordAt(i)))) {
+				return false;
+			}
+		}
+	    		
+		return true; 
+		}
+		
 
-	    // TODO: complete this method
-		return true;
-	}
-
+	
 	@Override
 	public int hashCode(){
-		// TODO: complete this method
+		for (int i = 0; i < myWords.length; i ++) {
+			myHash = myWords[i].toString().hashCode();
+		}
+			
 		return myHash;
 	}
 	
 
-	/**
-	 * Create and complete this comment
-	 * @param last is last String of returned WordGram
-	 * @return
-	 */
+	
 	public WordGram shiftAdd(String last) {
 		WordGram wg = new WordGram(myWords,0,myWords.length);
-		// TODO: Complete this method
+		for (int i= 0; i < wg.myWords.length; i ++) {
+			if (i < wg.myWords.length - 1) {
+				wg.myWords[i] = this.myWords[i+1];
+			}
+			
+			else {
+				wg.myWords[i] = last;
+			}
+		}						
+								
 		return wg;
 	}
 
 	@Override
 	public String toString(){
-		// TODO: Complete this method	
+		myToString = String.join(" ", myWords);
 		return myToString;
 	}
 }
